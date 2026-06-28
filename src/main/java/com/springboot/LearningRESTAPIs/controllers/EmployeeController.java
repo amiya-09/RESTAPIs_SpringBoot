@@ -6,6 +6,8 @@ import com.springboot.LearningRESTAPIs.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -29,6 +31,19 @@ public class EmployeeController {
     @PostMapping
     public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee) {
         return employeeService.createNewEmployee(inputEmployee);
+    }
+    @PutMapping(path = "/{employeeId}")
+    public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId){
+        return employeeService.updateEmployeeById(employeeId, employeeDTO);
+    }
+    @DeleteMapping(path = "/{employeeId}")
+    public boolean deleteEmployeeById(@PathVariable Long employeeId){
+        return employeeService.deleteEmployeeById(employeeId);
+    }
+    @PatchMapping(path = "/{employeeId}")
+    public EmployeeDTO updatePartialEmployeeById(@RequestBody Map<String, Object> updates,
+                                                 @PathVariable Long employeeId){
+        return employeeService.updatePartialEmployeeById(updates, employeeId);
     }
 }
 
