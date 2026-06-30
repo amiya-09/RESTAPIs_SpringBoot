@@ -1,6 +1,7 @@
 package com.springboot.LearningRESTAPIs.controllers;
 
 import com.springboot.LearningRESTAPIs.dto.EmployeeDTO;
+import com.springboot.LearningRESTAPIs.exceptions.ResourceNotFoundException;
 import com.springboot.LearningRESTAPIs.services.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -26,7 +28,7 @@ public class EmployeeController {
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
         return employeeDTO
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
     }
 
     @GetMapping
